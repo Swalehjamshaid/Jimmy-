@@ -1,11 +1,12 @@
 
-# Dockerfile (used when context is repo root)
+# Dockerfile (for repo-root context)
 FROM python:3.11-bullseye
 
+# System deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
-    chromium \
+       chromium \
     nodejs \
     npm \
     curl \
@@ -13,10 +14,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Because context is repo root, include 'backend/' in the source path
+# Copy deps (from repo root context, so include 'backend/')
 COPY backend/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy backend source (fix the destination path)
 COPY backend/ ./backend/
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -28,4 +30,3 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
     CMD curl -fsS http://localhost:${PORT}/health || exit 1
 
-CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -25,4 +25,5 @@ EXPOSE 8000
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
     CMD curl -fsS http://localhost:${PORT}/health || exit 1
+    COPY requirements.txt ./requirements.txt
 

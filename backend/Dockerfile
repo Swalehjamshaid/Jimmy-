@@ -25,33 +25,25 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # 6) Copy the rest of the backend source code into the image
 #    Copies everything from the backend/ directory (build context) to /app/backend
-COPY . ./backend/
+COPY . ./COPY . ./backend/
 
-# 7) (Optional) If you need Node build steps for assets, uncomment and adjust:
-# COPY package.json package-lock.json* ./frontend/
-# RUN npm install --prefix ./frontend && npm run build --prefix ./frontend
-
-# 8) Environment settings (example; adjust as needed)
+# 7) Environment settings (example; adjust as needed)
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
-# 9) Expose a port if your app serves HTTP (example: 8000)
+# 8) Expose a port if your app serves HTTP (example: 8000)
 # EXPOSE 8000
 
-# 10) Default command: **adjust this to your app’s entry point**
-# For example, if your app’s main file is backend/main.py:
+# 9) Default command: **adjust this to your app’s entry point**
+# Example for a plain Python script:
 # CMD ["python", "backend/main.py"]
 
-# If you use FastAPI# If you use FastAPI with uvicorn:
+# Example for FastAPI with uvicorn:
 # CMD ["uvicorn", "backend.app:app", "--host", "0.0.0.0", "--port", "8000"]
 
-# If you use Flask:
+# Example for Flask:
 # ENV FLASK_APP=backend/app.py
 # CMD ["flask", "run", "--host=0.0.0.0", "--port=8000"]
 
-# If you use Django:
-# COPY manage.py ./manage.py
-
-# Correct (context is repo root, file lives in backend/)
-COPY backend/requirements.txt ./requirements.txt
-
+# Example for Django:
+# (Ensure manage.py is in backend/ if you intend to copy/run it)

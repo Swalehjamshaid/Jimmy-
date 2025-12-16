@@ -15,3 +15,4 @@ RUN pip install --no-cache-dir -r ./backend/requirements.txt
 RUN npm install -g lighthouse@11
 COPY . .
 WORKDIR /app/backend
+CMD ["celery", "-A", "app.workers.celery_app.celery_app", "worker", "--loglevel=INFO", "-Q", "audits"]

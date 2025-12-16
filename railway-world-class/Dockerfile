@@ -1,7 +1,10 @@
 
+# railway-world-class/Dockerfile
+
+# 1) Base image
 FROM python:3.11-bullseye
 
-# System dependencies
+# 2) System dependencies (no stray backticks; clean multiline RUN)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
@@ -10,15 +13,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     npm \
     && rm -rf /var/lib/apt/lists/*
 
+## 3) Workdir
 WORKDIR /app
 
-# Copy Python dependencies first (for cache efficiency)
+# 4) Copy Python dependencies first for caching
+#    This path must exist inside the build context (repo root)
 COPY backend/requirements.txt ./requirements.txt
+
+# 5) Install Python deps
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# 6) Copy application code
 COPY backend/ ./backend/
 
-# Example start command (adjust to your app)
-# CMD ["python", "backend/main.py"]
-``
+# 7) (Optional) expose a port if your app serves HTTP
+# EXPOSE 8000
+
+# 8) Default command — adjust to your app’s entry point
+#    e.g., uvicorn, flask, django, or a plain script

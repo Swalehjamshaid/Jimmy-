@@ -20,4 +20,4 @@ RUN npm install -g lighthouse@11
 COPY . .
 WORKDIR /app/backend
 EXPOSE 8000
-CMD ["uvicorn", "app.main:app", "--host
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

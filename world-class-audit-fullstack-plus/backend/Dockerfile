@@ -8,11 +8,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# ⬇️ NO backend/ prefix anymore
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# ⬇️ Copy backend source directly
 COPY . .
 
 ENV PYTHONDONTWRITEBYTECODE=1

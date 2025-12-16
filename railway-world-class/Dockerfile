@@ -14,9 +14,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install Python dependencies
 COPY backend/requirements.txt ./backend/requirements.txt
 RUN pip install --no-cache-dir -r ./backend/requirements.txt
-## Install Lighthouse globally
+# Install Lighthouse globally
 RUN npm install -g lighthouse@11
 # Copy project files
 COPY . .
 WORKDIR /app/backend
 EXPOSE 8000
+CMD ["uvicorn", "app.main:app", "--host

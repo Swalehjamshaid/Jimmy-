@@ -2,7 +2,7 @@
 import os, subprocess, json
 
 def find_chrome():
-       path = os.getenv("CHROME_PATH", "/usr/bin/chromium")
+    path = os.getenv("CHROME_PATH", "/usr/bin/chromium")
     return path if os.path.exists(path) else None
 
 def run_lighthouse(url: str) -> dict:
@@ -20,3 +20,4 @@ def run_lighthouse(url: str) -> dict:
     try:
         return json.loads(res.stdout)
     except:
+        return {}

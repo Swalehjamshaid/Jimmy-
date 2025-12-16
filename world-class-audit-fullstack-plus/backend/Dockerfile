@@ -1,3 +1,5 @@
+
+# world-class-audit-fullstack-plus/backend/Dockerfile
 FROM python:3.11-bullseye
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -8,16 +10,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copy requirements first
-COPY requirements.txt .
+# Context is .../backend, so copy directly:
+COPY requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY . .
+# Copy backend source
+COPY . ./COPY . ./backend/
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PORT=8000
 
 EXPOSE 8000
 
-CMD uvicorn app.main:app --host 0.0.0.0 --port $PORT
+HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
+    CMD curl -fsS http://localhost:${PORT}/health || exit 1
+

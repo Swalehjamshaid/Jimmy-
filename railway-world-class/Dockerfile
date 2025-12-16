@@ -1,9 +1,8 @@
 
+# Use Python 3.11 base image
 FROM python:3.11-bullseye
-WORKDIR /app
-ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONPATH=/app/backend \
-    CHROME_PATH=/usr/bin/chromium
-# Install system dependencies, Chromium, Node.js, and Lighthouse
+
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
@@ -11,13 +10,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nodejs \
     npm \
     && rm -rf /var/lib/apt/lists/*
-# Install Python dependencies
-COPY backend/requirements.txt ./backend/requirements.txt
-RUN pip install --no-cache-dir -r ./backend/requirements.txt
-# Install Lighthouse globally
-RUN npm install -g lighthouse@11
-# Copy project files
-COPY . .
-WORKDIR /app/backend
-EXPOSE 8000
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# Set working directory
+WORKDIR /app
+
+# Copy Python dependencies first for caching
+COPY backend/requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+## Copy application code
+COPY backend/ ./backend/
+
+# Optional: Install Node dependencies if needed
+# COPY frontend/package.json ./frontend/
+# RUN npm install --prefix ./frontend
+
+# Default command (adjust as needed)

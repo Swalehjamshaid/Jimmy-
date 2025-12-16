@@ -51,3 +51,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # If you use Django:
 # COPY manage.py ./manage.py
+
+# Correct (context is repo root, file lives in backend/)
+COPY backend/requirements.txt ./requirements.txt
+

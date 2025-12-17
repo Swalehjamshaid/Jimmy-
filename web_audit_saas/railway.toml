@@ -1,4 +1,3 @@
-
 # web_audit_saas/railway.toml
 # ASCII-only, single-line values, no backticks or smart quotes.
 
@@ -43,4 +42,4 @@ builder = "DOCKERFILE"
 dockerfilePath = "frontend/Dockerfile"
 
 [service.frontend.deploy]
-numReplicas = numReplicas = 1
+numReplicas = 1

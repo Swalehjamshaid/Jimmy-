@@ -1,8 +1,10 @@
 
 # web_audit_saas/railway.toml
+# ASCII-only, single-line values, no backticks.
 
 [service.backend]
 name = "backend"
+
 [service.backend.build]
 builder = "DOCKERFILE"
 dockerfilePath = "backend/Dockerfile"
@@ -13,6 +15,7 @@ startCommand = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
 
 [service.worker]
 name = "worker"
+
 [service.worker.build]
 builder = "DOCKERFILE"
 dockerfilePath = "backend/celery.Dockerfile"
@@ -23,6 +26,7 @@ startCommand = "celery -A app.tasks.celery_app.celery worker --loglevel=INFO"
 
 [service.beat]
 name = "beat"
+
 [service.beat.build]
 builder = "DOCKERFILE"
 dockerfilePath = "backend/celerybeat.Dockerfile"
@@ -33,6 +37,7 @@ startCommand = "celery -A app.tasks.celery_app.celery beat --loglevel=INFO"
 
 [service.frontend]
 name = "frontend"
+
 [service.frontend.build]
 builder = "DOCKERFILE"
 dockerfilePath = "frontend/Dockerfile"

@@ -1,0 +1,9 @@
+
+# railway-worker.toml (Celery worker service)
+[build]
+builder = "dockerfile"
+dockerfilePath = "worker/Dockerfile"
+context = "/"
+
+[deploy]
+startCommand = "celery -A worker.celery_app.celery_app worker --loglevel=INFO"

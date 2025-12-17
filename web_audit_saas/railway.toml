@@ -1,1 +1,46 @@
-# Placeholder for railway.toml
+
+# web_audit_saas/railway.toml
+# Use Dockerfile builder explicitly and provide dockerfilePath for each service.
+
+[service.backend]
+name = "backend"
+[service.backend.build]
+builder = "DOCKERFILE"
+dockerfilePath = "backend/Dockerfile"
+# Optional: set a rootDirectory if you want Railway to scope this service
+# rootDirectory = "web_audit_saas"  # (only needed if your project canvas service root differs)
+
+[service.backend.deploy]
+numReplicas = 1
+startCommand = "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+# Environment variables are configured in Railway dashboard or via [variables] if desired.
+
+[service.worker]
+name = "worker"
+[service.worker.build]
+builder = "DOCKERFILE"
+dockerfilePath = "backend/celery.Dockerfile"
+
+[service.worker.deploy]
+numReplicas = 1
+startCommand = "celery -A app.tasks.celery_app.celery worker --loglevel=INFO"
+
+[service.beat]
+name = "beat"
+[service.beat.build]
+builder = "DOCKERFILE"
+dockerfilePath = "backend/celerybeat.Dockerfile"
+
+[service.beat.deploy]
+numReplicas = 1
+startCommand = "celery -A app.tasks.celery_app.celery beat --loglevel=INFO"
+
+[service.frontend]
+name = "frontend"
+[service.frontend.build]
+builder = "DOCKERFILE"
+dockerfilePath = "frontend/Dockerfile"
+
+[service.frontend.deploy]
+numReplicas = 1
+startCommand = "npm start --prefix . --

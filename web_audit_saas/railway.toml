@@ -1,6 +1,6 @@
 
 # web_audit_saas/railway.toml
-# ASCII-only, single-line values, no backticks.
+# ASCII-only, single-line values, no backticks or smart quotes.
 
 [service.backend]
 name = "backend"
@@ -43,6 +43,4 @@ builder = "DOCKERFILE"
 dockerfilePath = "frontend/Dockerfile"
 
 [service.frontend.deploy]
-numReplicas = 1
-startCommand = "npm start -- -p $PORT"
-``
+numReplicas = numReplicas = 1
